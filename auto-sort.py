@@ -61,8 +61,8 @@ folders = {"doc" : docSort/"DOC FILES",
 def check():
     for count in folders:
     	if Path(folders[count]).is_dir():
-    		#if(DEBUG):
-    			#print ("{} exist".format(folders[count]))
+    		if(DEBUG):
+    			print ("{} exist".format(folders[count]))
     		pass
     	else:
             if(DEBUG):
