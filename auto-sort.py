@@ -14,10 +14,10 @@ import shutil
 import send2trash
 from pathlib import Path
 
-DEBUG = True
+DEBUG = False
 
 #User of system
-user = "lacro"
+user = "ENTER-USERNAME-HERE"
 
 #Enable if OneDrive is active
 OneDrive = True
