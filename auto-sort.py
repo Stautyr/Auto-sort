@@ -17,7 +17,7 @@ from pathlib import Path
 DEBUG = False
 
 #User of system
-user = "ENTER-USERNAME-HERE"
+user = "USERNAME-HERE"
 
 #Enable if OneDrive is active
 OneDrive = True
@@ -25,9 +25,9 @@ OneDrive = True
 #OneDrive check
 startPath = Path("/Users/"+user)
 if(OneDrive == False):
-                 DocPath = startPath/"Documents"
+				 DocPath = startPath/"Documents"
 else:
-                 DocPath = startPath/"OneDrive/Documents"
+				 DocPath = startPath/"OneDrive/Documents"
 
 #Path shortcuts
 compSci = DocPath/"Comp Sci Stuff"
@@ -55,61 +55,35 @@ folders = {"doc" : docSort/"DOC FILES",
 		   "sldprt" : solidworks/"SOLIDWORKS Parts",
 		   "txt" : docSort/"TXT FILES",
 		   "wav" : musicSort/"WAV",
-		   "zipFolder" : docSort/"ZIP FILES"}
+		   "zip" : docSort/"ZIP FILES"}
 
 #Checks for folders and creates them if they do not exist 
 def check():
-    for count in folders:
-    	if Path(folders[count]).is_dir():
-    		if(DEBUG):
-    			print ("{} exist".format(folders[count]))
-    		pass
-    	else:
-            if(DEBUG):
-                print ("{} does not exist".format(folders[count]))
-                print ("Creating {}".format(folders[count]))
-            os.mkdir(folders[count])
-
-#Sorting functions
-def send(file, ext):
-    """Sends files to their sorted locations based on the file extension. 
-    If not extension is not listed then it is sent to other by default."""
-    ext = ext[1:]
-    try:
-    	folder = folders[ext]
-    	if(ext == "docx"):
-    		folder = folders["doc"]
-    	
-    	elif(ext == "mp3" or ext == "m4a" or ext == "wma"):
-        	folder = songSort(startFolder/file, ext)
-    
-    except:
-    	print ("Other file type found: " + ext)
-    	folder = folders["other"]
-    	if (DEBUG):
-    		print("Sending {} to {}".format(file,folder))
-    	shutil.move(startFolder/file, folder/file)
-    
-    else:    
-    	if (DEBUG):
-    		print("Sending {} to {}".format(file,folder))
-    	shutil.move(startFolder/file, folder/file)        
+	for count in folders:
+		if Path(folders[count]).is_dir():
+			if(DEBUG):
+				print ("{} exist".format(folders[count]))
+			pass
+		else:
+			if(DEBUG):
+				print ("{} does not exist".format(folders[count]))
+				print ("Creating {}".format(folders[count]))
+			os.mkdir(folders[count])
 
 def songSort(song, ext):
-    if(ext == ".mp3"):
+    if(ext == "mp3"):
         metadata = EasyID3(song)
         album = str(metadata['album'])
     
-    elif(ext == ".m4a"):
+    elif(ext == "m4a"):
         metadata = MP4(song)
         album = str(metadata["\xa9alb"])
     
-    elif(ext == ".wma"):
+    elif(ext == "wma"):
         metadata = ASF(song)
         album = str(metadata["WM/AlbumTitle"])
-
-    if (ext == ".wma"):
         album = album[22:-3]
+
     else:
         album = album[2:-2]
 
@@ -123,13 +97,45 @@ def songSort(song, ext):
         os.mkdir(musicSort/"Albums"/album)
     return(musicSort/"Albums"/album)
 
+#Sorting functions
+def send(file, ext):
+	"""Sends files to their sorted locations based on the file extension. 
+	If not extension is not listed then it is sent to other by default."""
+	shortExt = str(ext[1:])
+	try:
+		if(shortExt == "docx"):
+			folder = folders["doc"]
+		
+		elif(shortExt == "mp3" or shortExt == "m4a" or shortExt == "wma"):
+			folder = songSort(startFolder/file, shortExt)
+		
+		else:
+				folder = folders[shortExt]
+	except:
+		if(shortExt == "mp3" or shortExt == "m4a" or shortExt == "wma"):
+			folder = songSort(startFolder/file, shortExt)
+		
+		else:
+			print ("Other file type found: " + shortExt)
+			folder = folders["other"]
+			if (DEBUG):
+				print("Sending {} to {}".format(file,folder))
+			shutil.move(startFolder/file, folder/file)
+	
+	else:    
+		if (DEBUG):
+			print("Sending {} to {}".format(file,folder))
+		shutil.move(startFolder/file, folder/file)        
+
+
+
 def delEmpty(startFolder):
-    for folderName, subfolders, filenames in os.walk(startFolder):
-        folderSize = os.path.getsize(folderName)
-        if (folderSize == 0):
-            if (DEBUG):
-                print(folderName + " is empty \n deleting " + folderName)
-            send2trash.send2trash(folderName)
+	for folderName, subfolders, filenames in os.walk(startFolder):
+		folderSize = os.path.getsize(folderName)
+		if (folderSize == 0):
+			if (DEBUG):
+				print(folderName + " is empty \n deleting " + folderName)
+			send2trash.send2trash(folderName)
 
 ###########################################################################################
 #                                        MAIN PROGRAM                                     #
@@ -144,8 +150,8 @@ startFolder = downloads
 #Sorting method
 o = os.listdir(startFolder)                  #creates list of all files in starting folder
 for x in range(len(o)):
-    file = o[x] 
-    ext = os.path.splitext(file)[-1].lower() #isolates file extension
-    if(DEBUG):
-        print(ext)
-    send(file, ext)                          #sorts file
+	file = o[x] 
+	ext = os.path.splitext(file)[-1].lower() #isolates file extension
+	if(DEBUG):
+		print(ext)
+	send(file, ext)                          #sorts file
