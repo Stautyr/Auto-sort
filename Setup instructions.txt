@@ -1,0 +1,2 @@
+If you encounter an error if missing modules, make sure you have pip installed. Then in command line use
+this command: "pip install -r requirements.txt"

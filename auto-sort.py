@@ -2,13 +2,13 @@
 # Author: Stautyr                 #
 # Date: 7-16-2020                 #
 # Language: Python 3.6.4          #
-# Program: Auto-sort(v. 2.0)      #   
+# Program: Auto-sort(v. 2.0)      #
 ###################################
 
 #Setup
 from mutagen.asf import ASF         #
 from mutagen.easyid3 import EasyID3 # if an error occurs, you may need to pip install mutagen, shutil, and os
-from mutagen.mp4 import MP4         # 
+from mutagen.mp4 import MP4         #
 import os
 import shutil
 import send2trash
@@ -17,7 +17,7 @@ from pathlib import Path
 DEBUG = False
 
 #User of system
-user = "USERNAME-HERE"
+user = "lacro"
 
 #Enable if OneDrive is active
 OneDrive = True
@@ -57,7 +57,7 @@ folders = {"doc" : docSort/"DOC FILES",
 		   "wav" : musicSort/"WAV",
 		   "zip" : docSort/"ZIP FILES"}
 
-#Checks for folders and creates them if they do not exist 
+#Checks for folders and creates them if they do not exist
 def check():
 	for count in folders:
 		if Path(folders[count]).is_dir():
@@ -74,11 +74,11 @@ def songSort(song, ext):
     if(ext == "mp3"):
         metadata = EasyID3(song)
         album = str(metadata['album'])
-    
+
     elif(ext == "m4a"):
         metadata = MP4(song)
         album = str(metadata["\xa9alb"])
-    
+
     elif(ext == "wma"):
         metadata = ASF(song)
         album = str(metadata["WM/AlbumTitle"])
@@ -88,7 +88,7 @@ def songSort(song, ext):
         album = album[2:-2]
 
     albumList = os.listdir(musicSort/"Albums")
-    
+
     #album folder check
     if (album not in albumList):
         if(DEBUG):
@@ -99,33 +99,36 @@ def songSort(song, ext):
 
 #Sorting functions
 def send(file, ext):
-	"""Sends files to their sorted locations based on the file extension. 
+	"""Sends files to their sorted locations based on the file extension.
 	If not extension is not listed then it is sent to other by default."""
 	shortExt = str(ext[1:])
 	try:
 		if(shortExt == "docx"):
 			folder = folders["doc"]
-		
+
 		elif(shortExt == "mp3" or shortExt == "m4a" or shortExt == "wma"):
 			folder = songSort(startFolder/file, shortExt)
-		
+
 		else:
 				folder = folders[shortExt]
 	except:
 		if(shortExt == "mp3" or shortExt == "m4a" or shortExt == "wma"):
 			folder = songSort(startFolder/file, shortExt)
-		
+
 		else:
 			print ("Other file type found: " + shortExt)
 			folder = folders["other"]
 			if (DEBUG):
 				print("Sending {} to {}".format(file,folder))
-			shutil.move(startFolder/file, folder/file)
-	
-	else:    
+			try:
+				shutil.move(startFolder/file, folder/file)
+
+			except:
+				pass
+	else:
 		if (DEBUG):
 			print("Sending {} to {}".format(file,folder))
-		shutil.move(startFolder/file, folder/file)        
+		shutil.move(startFolder/file, folder/file)
 
 
 
@@ -150,7 +153,7 @@ startFolder = downloads
 #Sorting method
 o = os.listdir(startFolder)                  #creates list of all files in starting folder
 for x in range(len(o)):
-	file = o[x] 
+	file = o[x]
 	ext = os.path.splitext(file)[-1].lower() #isolates file extension
 	if(DEBUG):
 		print(ext)
