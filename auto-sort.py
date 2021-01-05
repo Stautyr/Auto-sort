@@ -1,6 +1,6 @@
 ###################################
 # Author: Stautyr                 #
-# Date: 7-16-2020                 #
+# Date: 1-5-2021                 #
 # Language: Python 3.6.4          #
 # Program: Auto-sort(v. 2.1)      #
 ###################################
@@ -38,29 +38,22 @@ else:
 
 
 #Path shortcuts
-compSci = DocPath/"Comp Sci Stuff"
 docSort = DocPath/"Download Sort"
 downloads = startPath/"downloads"
 musicSort = startPath/"Music"
 picSort = startPath/"Pictures/Camera Roll"
-solidworks = DocPath/"SOLIDWORKS"
 videoSort = startPath/"Videos"
 
 #folder assignment
 folders = {"doc" : docSort/"DOC FILES",
 		   "exe" : docSort/"EXE FILES",
 		   "jpg" : picSort/"JPG",
-		   "lvix" :  videoSort/"LVIX",
 		   "mov" : videoSort/"Captures",
 		   "mp4" : musicSort/"MP4",
 		   "other" : docSort/"OTHER",
 		   "pdf" : docSort/"PDFs",
 		   "png" : picSort/"PNG",
 		   "pptx" : docSort/"PPTX FILES",
-		   "psarc" : docSort/"PSARC FILES",
-		   "py" : compSci/"Python Scripts/Download Sort",
-		   "sldasm" : solidworks/"SOLIDWORKS Assembly",
-		   "sldprt" : solidworks/"SOLIDWORKS Parts",
 		   "txt" : docSort/"TXT FILES",
 		   "wav" : musicSort/"WAV",
 		   "zip" : docSort/"ZIP FILES"}
