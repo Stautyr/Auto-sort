@@ -2,7 +2,7 @@
 # Author: Stautyr                 #
 # Date: 7-16-2020                 #
 # Language: Python 3.6.4          #
-# Program: Auto-sort(v. 2.0)      #
+# Program: Auto-sort(v. 2.1)      #
 ###################################
 
 #Setup
@@ -15,19 +15,27 @@ import send2trash
 from pathlib import Path
 
 DEBUG = False
+if (DEBUG):
+	print("IN DEBUGGING MODE")
+	#User of system
+	user = "[INSERT USER HERE]"
 
-#User of system
-user = "lacro"
+	#Enable if OneDrive is active
+	OneDrive = True
 
-#Enable if OneDrive is active
-OneDrive = True
-
-#OneDrive check
-startPath = Path("/Users/"+user)
-if(OneDrive == False):
-				 DocPath = startPath/"Documents"
 else:
-				 DocPath = startPath/"OneDrive/Documents"
+	pathList = str(Path.cwd()).split("\\")
+	user = pathList[2]
+	if (pathList[3] == "OneDrive"):
+		OneDrive = True
+
+	#OneDrive check
+	startPath = Path("/Users/"+user)
+	if(OneDrive == False):
+				 	DocPath = startPath/"Documents"
+	else:
+				 	DocPath = startPath/"OneDrive/Documents"
+
 
 #Path shortcuts
 compSci = DocPath/"Comp Sci Stuff"
@@ -99,8 +107,22 @@ def songSort(song, ext):
 
 #Sorting functions
 def send(file, ext):
-	"""Sends files to their sorted locations based on the file extension.
-	If not extension is not listed then it is sent to other by default."""
+    """Sends files to their sorted locations based on the file extension.
+	If not extension is not listed then it is sent to other by default.
+
+    Parameters
+    ----------
+    file : type
+        Description of parameter `file`.
+    ext : type
+        Description of parameter `ext`.
+
+    Returns
+    -------
+    type
+        Description of returned object.
+
+    """
 	shortExt = str(ext[1:])
 	try:
 		if(shortExt == "docx"):
