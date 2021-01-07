@@ -24,17 +24,18 @@ if (DEBUG):
 	OneDrive = True
 
 else:
-	pathList = str(Path.cwd()).split("\\")
-	user = pathList[2]
-	if (pathList[3] == "OneDrive"):
-		OneDrive = True
+        OneDrive = False
+        pathList = str(Path.cwd()).split("\\")
+        user = pathList[2]
+        if (pathList[3] == "OneDrive"):
+                OneDrive = True
 
-	#OneDrive check
-	startPath = Path("/Users/"+user)
-	if(OneDrive == False):
-				 	DocPath = startPath/"Documents"
-	else:
-				 	DocPath = startPath/"OneDrive/Documents"
+        #OneDrive check
+        startPath = Path("/Users/"+user)
+        if(OneDrive == False):
+                                        DocPath = startPath/"Documents"
+        else:
+                                        DocPath = startPath/"OneDrive/Documents"
 
 
 #Path shortcuts
@@ -100,50 +101,34 @@ def songSort(song, ext):
 
 #Sorting functions
 def send(file, ext):
-    """Sends files to their sorted locations based on the file extension.
-	If not extension is not listed then it is sent to other by default.
+        shortExt = str(ext[1:])
+        try:
+                if(shortExt == "docx"):
+                        folder = folders["doc"]
 
-    Parameters
-    ----------
-    file : type
-        Description of parameter `file`.
-    ext : type
-        Description of parameter `ext`.
+                elif(shortExt == "mp3" or shortExt == "m4a" or shortExt == "wma"):
+                        folder = songSort(startFolder/file, shortExt)
 
-    Returns
-    -------
-    type
-        Description of returned object.
+                else:
+                                folder = folders[shortExt]
+        except:
+                if(shortExt == "mp3" or shortExt == "m4a" or shortExt == "wma"):
+                        folder = songSort(startFolder/file, shortExt)
 
-    """
-	shortExt = str(ext[1:])
-	try:
-		if(shortExt == "docx"):
-			folder = folders["doc"]
+                else:
+                        print ("Other file type found: " + shortExt)
+                        folder = folders["other"]
+                        if (DEBUG):
+                                print("Sending {} to {}".format(file,folder))
+                        try:
+                                shutil.move(startFolder/file, folder/file)
 
-		elif(shortExt == "mp3" or shortExt == "m4a" or shortExt == "wma"):
-			folder = songSort(startFolder/file, shortExt)
-
-		else:
-				folder = folders[shortExt]
-	except:
-		if(shortExt == "mp3" or shortExt == "m4a" or shortExt == "wma"):
-			folder = songSort(startFolder/file, shortExt)
-
-		else:
-			print ("Other file type found: " + shortExt)
-			folder = folders["other"]
-			if (DEBUG):
-				print("Sending {} to {}".format(file,folder))
-			try:
-				shutil.move(startFolder/file, folder/file)
-
-			except:
-				pass
-	else:
-		if (DEBUG):
-			print("Sending {} to {}".format(file,folder))
-		shutil.move(startFolder/file, folder/file)
+                        except:
+                                pass
+        else:
+                if (DEBUG):
+                        print("Sending {} to {}".format(file,folder))
+                shutil.move(startFolder/file, folder/file)
 
 
 
