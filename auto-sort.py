@@ -1,6 +1,6 @@
 ###################################
 # Author: Stautyr                 #
-# Date: 1-5-2021                 #
+# Date: 1-5-2021                  #
 # Language: Python 3.6.4          #
 # Program: Auto-sort(v. 2.1)      #
 ###################################
@@ -47,17 +47,17 @@ videoSort = startPath/"Videos"
 
 #folder assignment
 folders = {"doc" : docSort/"DOC FILES",
-		   "exe" : docSort/"EXE FILES",
-		   "jpg" : picSort/"JPG",
-		   "mov" : videoSort/"Captures",
-		   "mp4" : musicSort/"MP4",
-		   "other" : docSort/"OTHER",
-		   "pdf" : docSort/"PDFs",
-		   "png" : picSort/"PNG",
-		   "pptx" : docSort/"PPTX FILES",
-		   "txt" : docSort/"TXT FILES",
-		   "wav" : musicSort/"WAV",
-		   "zip" : docSort/"ZIP FILES"}
+	   "exe" : docSort/"EXE FILES",
+	   "jpg" : picSort/"JPG",
+	   "mov" : videoSort/"Captures",
+	   "mp4" : musicSort/"MP4",
+	   "other" : docSort/"OTHER",
+	   "pdf" : docSort/"PDFs",
+	   "png" : picSort/"PNG",
+	   "pptx" : docSort/"PPTX FILES",
+	   "txt" : docSort/"TXT FILES",
+	   "wav" : musicSort/"WAV",
+	   "zip" : docSort/"ZIP FILES"}
 
 #Checks for folders and creates them if they do not exist
 def check():
@@ -110,7 +110,7 @@ def send(file, ext):
                         folder = songSort(startFolder/file, shortExt)
 
                 else:
-                                folder = folders[shortExt]
+                        folder = folders[shortExt]
         except:
                 if(shortExt == "mp3" or shortExt == "m4a" or shortExt == "wma"):
                         folder = songSort(startFolder/file, shortExt)
